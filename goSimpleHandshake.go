@@ -1,6 +1,11 @@
 package goSimpleHandshake
 
-import "github.com/z46-dev/goSimpleHandshake/lib"
+import (
+	"encoding/json"
+	"os"
+
+	"github.com/z46-dev/goSimpleHandshake/lib"
+)
 
 // Structure of a message:
 // 1 byte: 1st XOR key
@@ -83,4 +88,26 @@ func EncodeMessage(message *lib.Message, XOR1, XOR2 byte) []byte {
 func DecodeMessage(message []byte) (*lib.Message, byte, byte) {
 	body, XOR1, XOR2 := parseByteMessage(message)
 	return lib.NewMessageFromBytes(body), XOR1, XOR2
+}
+
+func LoadXORKeysFromConfigFile(fileName string) (byte, byte, error) {
+	configFile, err := os.Open(fileName)
+	if err != nil {
+		return 0, 0, err
+	}
+
+	defer configFile.Close()
+
+	var config struct {
+		XOR1 byte `json:"XOR1"`
+		XOR2 byte `json:"XOR2"`
+	}
+
+	jsonParser := json.NewDecoder(configFile)
+	err = jsonParser.Decode(&config)
+	if err != nil {
+		return 0, 0, err
+	}
+
+	return config.XOR1, config.XOR2, nil
 }
