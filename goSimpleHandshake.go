@@ -36,7 +36,7 @@ func (m *Message) GetBody() []byte {
 }
 
 func (m *Message) SetU8(offset int, value uint8) error {
-	if offset >= m.length {
+	if offset > m.length {
 		return fmt.Errorf("offset %d is out of range", offset)
 	}
 
@@ -45,7 +45,7 @@ func (m *Message) SetU8(offset int, value uint8) error {
 }
 
 func (m *Message) GetU8(offset int) (uint8, error) {
-	if offset >= m.length {
+	if offset > m.length {
 		return 0, fmt.Errorf("offset %d is out of range", offset)
 	}
 
@@ -53,7 +53,7 @@ func (m *Message) GetU8(offset int) (uint8, error) {
 }
 
 func (m *Message) SetU16(offset int, value uint16) error {
-	if offset+1 >= m.length {
+	if offset+1 > m.length {
 		return fmt.Errorf("offset %d is out of range", offset)
 	}
 
@@ -63,7 +63,7 @@ func (m *Message) SetU16(offset int, value uint16) error {
 }
 
 func (m *Message) GetU16(offset int) (uint16, error) {
-	if offset+1 >= m.length {
+	if offset+1 > m.length {
 		return 0, fmt.Errorf("offset %d is out of range", offset)
 	}
 
@@ -71,7 +71,7 @@ func (m *Message) GetU16(offset int) (uint16, error) {
 }
 
 func (m *Message) SetStringUTF8(offset int, value string) error {
-	if offset+len(value) >= m.length {
+	if offset+len(value) > m.length {
 		return fmt.Errorf("offset %d is out of range", offset)
 	}
 
@@ -81,7 +81,7 @@ func (m *Message) SetStringUTF8(offset int, value string) error {
 }
 
 func (m *Message) GetStringUTF8(offset int, length int) (string, error) {
-	if offset+length >= m.length {
+	if offset+length > m.length {
 		return "", fmt.Errorf("offset %d is out of range", offset)
 	}
 
