@@ -75,9 +75,7 @@ func (m *Message) SetStringUTF8(offset int, value string) error {
 		return fmt.Errorf("offset %d is out of range", offset)
 	}
 
-	for i, c := range value {
-		m.body[offset+i] = byte(c)
-	}
+	copy(m.body[offset:], value)
 
 	return nil
 }
