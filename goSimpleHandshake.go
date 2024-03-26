@@ -11,7 +11,7 @@ type Message struct {
 	body   []byte
 }
 
-func NewMessage(length int) *Message {
+func MessageTemplate(length int) *Message {
 	var message *Message = new(Message)
 	message.length = length
 	message.body = make([]byte, length)
@@ -19,7 +19,7 @@ func NewMessage(length int) *Message {
 	return message
 }
 
-func NewMessageFromBytes(body []byte) *Message {
+func newMessageFromBytes(body []byte) *Message {
 	var message *Message = new(Message)
 	message.length = len(body)
 	message.body = body
@@ -160,17 +160,13 @@ func parseByteMessage(handshake []byte) ([]byte, byte, byte) {
 	return body, XOR1, XOR2
 }
 
-func MessageTemplate(length int) *Message {
-	return NewMessage(length)
-}
-
 func EncodeMessage(message *Message, XOR1, XOR2 byte) []byte {
 	return createByteMessage(message.GetBody(), XOR1, XOR2)
 }
 
 func DecodeMessage(message []byte) (*Message, byte, byte) {
 	body, XOR1, XOR2 := parseByteMessage(message)
-	return NewMessageFromBytes(body), XOR1, XOR2
+	return newMessageFromBytes(body), XOR1, XOR2
 }
 
 func LoadXORKeysFromConfigFile(fileName string) (byte, byte, error) {
