@@ -124,7 +124,7 @@ func _XOR(bytes []byte, key byte) []byte {
 }
 
 func createByteMessage(message []byte, XOR1, XOR2 byte) []byte {
-	var output []byte = make([]byte, 8+len(message))
+	var output []byte = make([]byte, 7+len(message))
 	output[0] = XOR1
 	output[1] = byte(len(message) >> 8)
 	output[2] = byte(len(message) & 0xFF)
@@ -143,7 +143,7 @@ func createByteMessage(message []byte, XOR1, XOR2 byte) []byte {
 }
 
 func parseByteMessage(handshake []byte) ([]byte, byte, byte) {
-	if len(handshake) < 8 {
+	if len(handshake) < 7 {
 		return nil, 0, 0
 	}
 
